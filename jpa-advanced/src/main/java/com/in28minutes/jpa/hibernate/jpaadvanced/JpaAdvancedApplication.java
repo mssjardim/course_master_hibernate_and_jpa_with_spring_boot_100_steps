@@ -1,7 +1,7 @@
 package com.in28minutes.jpa.hibernate.jpaadvanced;
 
-import com.in28minutes.jpa.hibernate.jpaadvanced.entity.Course;
 import com.in28minutes.jpa.hibernate.jpaadvanced.repository.CourseRepository;
+import com.in28minutes.jpa.hibernate.jpaadvanced.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,11 @@ public class JpaAdvancedApplication implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private CourseRepository repository;
+    private CourseRepository courseRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
+
 
     public static void main(String[] args) {
         SpringApplication.run(JpaAdvancedApplication.class, args);
@@ -22,6 +26,8 @@ public class JpaAdvancedApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        repository.playWithEntityManager3();
+        courseRepository.playWithEntityManager3();
+
+        studentRepository.saveStudentWithPassword();
     }
 }

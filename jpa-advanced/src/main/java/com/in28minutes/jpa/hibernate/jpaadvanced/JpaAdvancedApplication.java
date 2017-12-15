@@ -1,5 +1,7 @@
 package com.in28minutes.jpa.hibernate.jpaadvanced;
 
+import com.in28minutes.jpa.hibernate.jpaadvanced.entity.Course;
+import com.in28minutes.jpa.hibernate.jpaadvanced.entity.Student;
 import com.in28minutes.jpa.hibernate.jpaadvanced.repository.CourseRepository;
 import com.in28minutes.jpa.hibernate.jpaadvanced.repository.StudentRepository;
 import org.slf4j.Logger;
@@ -15,9 +17,8 @@ public class JpaAdvancedApplication implements CommandLineRunner {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private CourseRepository courseRepository;
-
     @Autowired
-    StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
 
     public static void main(String[] args) {
@@ -26,8 +27,19 @@ public class JpaAdvancedApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        courseRepository.playWithEntityManager3();
+//        courseRepository.playWithEntityManager3();
+//        studentRepository.saveStudentWithPassword();
+//        courseRepository.addHardcodedReviewsForCourse();
+//        List<Review> reviews = new ArrayList<>();
+//        reviews.add(new Review("5", "Great Hands-on Stuff."));
+//        reviews.add(new Review("5", "Hatsoff."));
+//
+//        courseRepository.addReviewsForCourse(10001L, reviews);
 
-        studentRepository.saveStudentWithPassword();
+//        studentRepository.insertHardcodedStudentAndCourse();
+
+        Student student = new Student("Jack");
+        Course course = new Course("Microservices in 100 Steps");
+        studentRepository.insertStudentAndCourse(student, course);
     }
 }

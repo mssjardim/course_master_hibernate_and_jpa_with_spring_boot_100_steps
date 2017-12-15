@@ -1,7 +1,9 @@
 package com.in28minutes.jpa.hibernate.jpaadvanced.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NamedQueries(value = {
@@ -19,6 +21,12 @@ public class Course {
     private Date lastUpdatedDate;
 
     private Date createdDate;
+
+    @OneToMany(mappedBy = "course") // default LAZY
+    private List<Review> reviews = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
 
     @PrePersist
     public void prePresist() {
@@ -47,6 +55,26 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
+
+    public void removeReview(Review review) {
+        this.reviews.remove(review);
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
     }
 
     @Override

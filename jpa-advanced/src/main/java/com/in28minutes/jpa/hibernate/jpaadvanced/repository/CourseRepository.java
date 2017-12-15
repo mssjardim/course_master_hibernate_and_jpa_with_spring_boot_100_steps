@@ -2,15 +2,21 @@ package com.in28minutes.jpa.hibernate.jpaadvanced.repository;
 
 
 import com.in28minutes.jpa.hibernate.jpaadvanced.entity.Course;
+import com.in28minutes.jpa.hibernate.jpaadvanced.entity.Review;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @Transactional
 public class CourseRepository {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     EntityManager em;
@@ -75,4 +81,35 @@ public class CourseRepository {
         em.flush();
     }
 
+    public void addHardcodedReviewsForCourse() {
+        //get the course 10003
+        Course course = findById(10003L);
+        logger.info("course.getReviews() ->{}", course.getReviews());
+
+        //add 2 reviews to it
+        Review review1 = new Review("5","Great Hands-on Stuff.");
+        Review review2 = new Review("5","Hatsoff.");
+
+        //setting the relationship
+        course.addReview(review1);
+        review1.setCourse(course);
+
+        course.addReview(review2);
+        review2.setCourse(course);
+
+        //save it to the database
+        em.persist(review1);
+        em.persist(review2);
+    }
+
+    public void addReviewsForCourse(Long courseId, List<Review> reviews) {
+        Course course = findById(courseId);
+        logger.info("course.getReviews() -> {}", course.getReviews());
+        for (Review review: reviews) {
+            //setting the relationship
+            course.addReview(review);
+            review.setCourse(course);
+            em.persist(review);
+        }
+    }
 }
